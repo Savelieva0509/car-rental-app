@@ -1,0 +1,12 @@
+.homeTitle {
+  font-size: 32px;
+  font-weight: 400;
+  font-family: Segoe UI;
+  color: rgb(66, 91, 115);
+  margin: 0;
+}
+
+.homePageContainer {
+  padding: 100px;
+  max-width: 400px;
+}
