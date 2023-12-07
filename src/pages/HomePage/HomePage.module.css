@@ -10,3 +10,16 @@
   padding: 100px;
   max-width: 400px;
 }
+
+.container {
+  background-image: url('./img/cat.jpg');
+  background-size: cover;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}

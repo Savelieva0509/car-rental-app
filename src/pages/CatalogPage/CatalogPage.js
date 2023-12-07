@@ -9,14 +9,11 @@
 // import Spinner from 'components/Spinner/Spinner'
 
 export function CatalogPage() {
-
   return (
     <>
-      
-        <title>CatalogPage</title>
-      
+      <h1>CatalogPage</h1>
     </>
   );
 }
 
-export default CatalogPage
+export default CatalogPage;

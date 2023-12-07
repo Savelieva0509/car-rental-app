@@ -4,7 +4,7 @@
 function FavoritesPage() {
   return (
     <div>
-      <title>Favorite Page</title>
+      <h1>Favorite Page</h1>
     </div>
   );
 }
