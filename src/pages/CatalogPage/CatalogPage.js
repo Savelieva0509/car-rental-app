@@ -9,7 +9,7 @@ import fetchCars from '../../Api';
 // import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
 
 function CatalogPage() {
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [cars, setCars] = useState([]);
   
