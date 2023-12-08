@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import Loader from 'components/Loader/Loader';
-//import CarList from 'components/CarList/CarList';
+import CarList from 'components/CarList/CarList';
 import css from '../CatalogPage/CatalogPage.module.css';
 import fetchCars from '../../Api';
 // import Button from 'components/Button/Button';
@@ -36,10 +36,9 @@ function CatalogPage() {
   return (
     <div className={css.container}>
       {isLoading && <Loader />}
-      {/* <CarList cars={cars} /> */}
+      <CarList cars={cars} />
       {/* <ScrollToTop /> */}
       {/* <Button onLoadMore={loadMore} /> */}
-      CatalogPage
       <Suspense fallback={<Loader center content="loading" />}>
         <Outlet />
       </Suspense>
