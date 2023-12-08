@@ -29,9 +29,9 @@ function CatalogPage() {
       });
   }, [page]);
 
-  const loadMore = () => {
-    setPage(prevPage => prevPage + 1);
-  };
+  // const loadMore = () => {
+  //   setPage(prevPage => prevPage + 1);
+  // };
 
   return (
     <div className={css.container}>
