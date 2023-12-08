@@ -1,18 +1,49 @@
-// import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { Helmet } from 'react-helmet';
-// import ContactList  from 'components/ContactList/ContactList';
-// import ContactForm from 'components/ContactForm/ContactForm';
-// import Filter from 'components/Filter/Filter';
-// import { fetchContacts } from 'redux/contacts/contactsOperations';
-// import { getIsLoading } from 'redux/contacts/contactsSelectors';
-// import Spinner from 'components/Spinner/Spinner'
+import React, { useState, useEffect, Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
+import Loader from 'components/Loader/Loader';
+//import CarList from 'components/CarList/CarList';
+import css from '../CatalogPage/CatalogPage.module.css';
+import fetchCars from '../../Api';
+// import Button from 'components/Button/Button';
 
-export function CatalogPage() {
+// import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
+
+function CatalogPage() {
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [cars, setCars] = useState([]);
+  
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchCars(page)
+      .then(response => {
+        setCars(response);
+        console.log(response);
+      })
+      .catch(error => {
+        console.error('Error fetching cars:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [page]);
+
+  const loadMore = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
   return (
-    <>
-      <h1>CatalogPage</h1>
-    </>
+    <div className={css.container}>
+      {isLoading && <Loader />}
+      {/* <CarList cars={cars} /> */}
+      {/* <ScrollToTop /> */}
+      {/* <Button onLoadMore={loadMore} /> */}
+      CatalogPage
+      <Suspense fallback={<Loader center content="loading" />}>
+        <Outlet />
+      </Suspense>
+    </div>
   );
 }
 
