@@ -34,7 +34,7 @@ function CatalogPage() {
   // };
 
   return (
-    <div className={css.container}>
+    <div className={css.catalogContainer}>
       {isLoading && <Loader />}
       <CarList cars={cars} />
       {/* <ScrollToTop /> */}
