@@ -1,0 +1,16 @@
+.buttonLoadMore {
+  display: block;
+  color: #3470ff;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-decoration: underline;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.buttonLoadMore:hover {
+  color:rgba(11, 68, 205, 1);
+}

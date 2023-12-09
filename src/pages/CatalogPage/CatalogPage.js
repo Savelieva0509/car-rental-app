@@ -4,12 +4,12 @@ import Loader from 'components/Loader/Loader';
 import CarList from 'components/CarList/CarList';
 import css from '../CatalogPage/CatalogPage.module.css';
 import fetchCars from '../../Api';
-// import Button from 'components/Button/Button';
+import ButtonLoadMore from 'components/ButtonLoadMore/ButtonLoadMore';
 
 // import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
 
 function CatalogPage() {
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [cars, setCars] = useState([]);
   
@@ -29,16 +29,16 @@ function CatalogPage() {
       });
   }, [page]);
 
-  // const loadMore = () => {
-  //   setPage(prevPage => prevPage + 1);
-  // };
+  const loadMore = () => {
+    setPage(prevPage => prevPage + 1);
+  };
 
   return (
     <div className={css.catalogContainer}>
       {isLoading && <Loader />}
       <CarList cars={cars} />
       {/* <ScrollToTop /> */}
-      {/* <Button onLoadMore={loadMore} /> */}
+      <ButtonLoadMore onLoadMore={loadMore} />
       <Suspense fallback={<Loader center content="loading" />}>
         <Outlet />
       </Suspense>
