@@ -5,6 +5,9 @@
   grid-auto-flow: dense;
 }
 
+.carItem {
+  position: relative;
+}
 .carImage {
   display: block;
   width: 100%;
@@ -80,4 +83,15 @@
 }
 .buttonLearnMore:hover {
   background-color: #0b44cd;
+}
+
+.likeIcon {
+  position: absolute;
+  margin: 0;
+  top: 14px;
+  right: 14px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  color: rgb(255 255 255 / 80%);
 }

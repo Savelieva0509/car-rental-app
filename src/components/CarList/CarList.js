@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
-// import { HiHeart } from 'react-icons/hi';
-// import { HiOutlineHeart } from 'react-icons/hi';
+import { useSelector, useDispatch } from 'react-redux';
+import { HiHeart } from 'react-icons/hi';
+import { HiOutlineHeart } from 'react-icons/hi';
 import Modal from '../Modal/Modal';
 import css from '../CarList/CarList.module.css';
 
+import {
+  addFavoriteList,
+  removeFavoriteList,
+} from '../../redux/favorite-slice';
+
 const CarList = ({ cars }) => {
+  const dispatch = useDispatch();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const favorite = useSelector(state => state.favorite);
+  console.log(favorite);
+const isFavorite = carId => {
+  return (
+    favorite.favoriteList.length > 0 &&
+    favorite.favoriteList.some(item => item.id === carId)
+  );
+};
 
   const openModal = carId => {
     setIsModalOpen(prevState => ({
@@ -22,6 +37,15 @@ const CarList = ({ cars }) => {
       [carId]: false,
     }));
   };
+
+const toggleFavorite = carId => {
+  if (!isFavorite(carId)) {
+    dispatch(addFavoriteList(carId));
+  } else {
+    dispatch(removeFavoriteList(carId));
+  }
+};
+
   return (
     <div className={css.carListContainer}>
       <ul className={css.carList}>
@@ -55,6 +79,16 @@ const CarList = ({ cars }) => {
             return (
               <li className={css.carItem} key={id}>
                 <img src={img} alt="car" className={css.carImage} />
+                <div
+                  className={css.likeIcon}
+                  onClick={() => toggleFavorite(id)}
+                >
+                  {isFavorite[id] ? (
+                    <HiHeart color={'#3470ff'} size={18} />
+                  ) : (
+                    <HiOutlineHeart size={18} />
+                  )}
+                </div>
                 <div className={css.titleContainer}>
                   <div className={css.titleInfo}>
                     <p className={css.titleInfoText}>{make}&nbsp;</p>
