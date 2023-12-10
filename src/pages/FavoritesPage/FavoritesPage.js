@@ -7,7 +7,9 @@ import css from '../CatalogPage/CatalogPage.module.css';
 const Favorites = () => {
   const totalCars = useSelector(selectTotalCars);
   const favorite = useSelector(state => state.favorite);
-  const favoriteCars = totalCars.filter(car => favorite.includes(car.id));
+  const favoriteCarIds = favorite.favoriteList;
+
+  const favoriteCars = totalCars.filter(car => favoriteCarIds.includes(car.id));
 
   return (
     <div className={css.catalogContainer}>
