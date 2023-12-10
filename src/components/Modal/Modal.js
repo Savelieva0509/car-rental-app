@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import css from '../Modal/Modal.module.css';
 
 const Modal = ({
@@ -20,45 +20,35 @@ const Modal = ({
   rentalConditions,
   mileage,
 }) => {
-//   useEffect(() => {
-//     const handleCloseOnEsc = event => {
-//       if (event.keyCode === 27) {
-//         onClose();
-//       }
-//     };
+const handleKeyDown = useCallback(
+  event => {
+    if (event.keyCode === 27) {
+      onClose();
+    }
+  },
+  [onClose]
+);
 
-//     if (isOpen) {
-//       document.addEventListener('keydown', handleCloseOnEsc);
-//     }
+useEffect(() => {
+  if (isOpen) {
+    document.addEventListener('keydown', handleKeyDown);
+  }
 
-//     return () => {
-//       document.removeEventListener('keydown', handleCloseOnEsc);
-//     };
-//   }, [isOpen, onClose]);
+  return () => {
+    document.removeEventListener('keydown', handleKeyDown);
+  };
+}, [isOpen, handleKeyDown]);
 
-//   if (!isOpen) {
-//     return null;
-//   }
 
-     const addressParts = address.split(', ');
-     const city = addressParts[1];
-    const country = addressParts[2];
-    const rentalConditionsSplitted = rentalConditions.split('\n', 3);
-    const firstElement = rentalConditionsSplitted[0];
-    const match = firstElement.match(/\d+/);
-    const number = parseInt(match[0], 10);
+  const addressParts = address.split(', ');
+  const city = addressParts[1];
+  const country = addressParts[2];
+  const rentalConditionsSplitted = rentalConditions.split('\n', 3);
+  const firstElement = rentalConditionsSplitted[0];
+  const match = firstElement.match(/\d+/);
+  const number = parseInt(match[0], 10);
 
-    
   return (
-    // <div className="overlay">
-    //   <div className="modal">
-    //     <button className="modalClosebtn" onClick={onClose}>
-    //       Закрыть
-    //     </button>
-    //     <div className="modalContent">{children}</div>
-    //   </div>
-    //   </div>
-
     <div className={css.Backdrop} onClick={onClose}>
       <div className={css.ModalContainer}>
         <div className={css.ContentWrapper}>
