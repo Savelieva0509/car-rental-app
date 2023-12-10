@@ -1,12 +1,19 @@
-// import { Helmet } from 'react-helmet';
-// import  LoginForm  from 'components/LoginForm/LoginForm';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import CarList from '../../components/CarList/CarList';
+import { selectTotalCars } from '../../redux/totalCars-slice';
+import css from '../CatalogPage/CatalogPage.module.css';
 
-function FavoritesPage() {
+const Favorites = () => {
+  const totalCars = useSelector(selectTotalCars);
+  const favorite = useSelector(state => state.favorite);
+  const favoriteCars = totalCars.filter(car => favorite.includes(car.id));
+
   return (
-    <div>
-      <h1>Favorite Page</h1>
+    <div className={css.catalogContainer}>
+      <CarList cars={favoriteCars} />
     </div>
   );
-}
+};
 
-export default FavoritesPage;
+export default Favorites;
