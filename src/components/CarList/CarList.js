@@ -15,14 +15,6 @@ const CarList = ({ cars }) => {
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const favorite = useSelector(state => state.favorite);
-  console.log(favorite);
-const isFavorite = carId => {
-  return (
-    favorite.favoriteList.length > 0 &&
-    favorite.favoriteList.some(item => item.id === carId)
-  );
-};
 
   const openModal = carId => {
     setIsModalOpen(prevState => ({
@@ -38,13 +30,19 @@ const isFavorite = carId => {
     }));
   };
 
-const toggleFavorite = carId => {
-  if (!isFavorite(carId)) {
-    dispatch(addFavoriteList(carId));
-  } else {
-    dispatch(removeFavoriteList(carId));
-  }
-};
+  const favorite = useSelector(state => state.favorite);
+
+  const isFavorite = carId => {
+    return favorite.favoriteList.some(item => item === carId);
+  };
+
+  const toggleFavorite = carId => {
+    if (!isFavorite(carId)) {
+      dispatch(addFavoriteList(carId));
+    } else {
+      dispatch(removeFavoriteList(carId));
+    }
+  };
 
   return (
     <div className={css.carListContainer}>
@@ -83,7 +81,7 @@ const toggleFavorite = carId => {
                   className={css.likeIcon}
                   onClick={() => toggleFavorite(id)}
                 >
-                  {isFavorite[id] ? (
+                  {isFavorite(id) ? (
                     <HiHeart color={'#3470ff'} size={18} />
                   ) : (
                     <HiOutlineHeart size={18} />
