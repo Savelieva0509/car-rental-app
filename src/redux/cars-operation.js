@@ -10,7 +10,7 @@ export const fetchCars = createAsyncThunk(
       const responce = await axios.get(`/cars`, {
         params: {
           page: page,
-          limit: 8,
+          limit: 20,
         },
       });
 

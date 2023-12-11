@@ -148,13 +148,9 @@
   font-size: 12px;
   line-height: 18px;
   padding-right: 4px;
-  width: calc((100%-16px)/4);
-  border-right:  1px solid rgba(18, 20, 23, 0.2);
+  width: calc((100%-16px) / 4);
+  border-right: 1px solid rgba(18, 20, 23, 0.2);
 }
-
-/* .AccessoryListItem:not(:first-child) {
-    
-} */
 
 .RentalBlock {
   padding: 0;

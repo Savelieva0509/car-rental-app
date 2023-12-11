@@ -10,11 +10,9 @@ import { selectCars } from '../../redux/cars-selector';
 import { setTotalCars, selectTotalCars } from '../../redux/totalCars-slice';
 import { fetchCars } from '../../redux/cars-operation';
 
-// import ScrollToTop from 'components/ScrollToTop/ScrollToTop';
-
 function CatalogPage() {
   const cars = useSelector(selectCars);
-  console.log(cars, "cars");
+  console.log(cars, 'cars');
 
   const totalCars = useSelector(selectTotalCars);
   console.log(totalCars, 'totalCars');
@@ -23,20 +21,25 @@ function CatalogPage() {
 
   const [page, setPage] = useState(1);
   const [prevPage, setPrevPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const total = await getTotalCars();
-        console.log(total, "total");
-        dispatch(setTotalCars(total));
-      } catch (error) {
-        console.error('Error fetching total cars:', error);
-      }
-    };
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const total = await getTotalCars();
+      dispatch(setTotalCars(total));
+    } catch (error) {
+      console.error('Error fetching total cars:', error);
+    } finally {
+      setIsLoading(false); 
+    }
+  };
 
-    fetchData();
-  }, [dispatch]);
+  setIsLoading(true); 
+
+  fetchData();
+}, [dispatch]);
+
 
   useEffect(() => {
     if (prevPage !== page) {
@@ -51,8 +54,8 @@ function CatalogPage() {
 
   return (
     <div className={css.catalogContainer}>
+      {isLoading && <Loader />}
       <CarList cars={cars} />
-      {/* <ScrollToTop /> */}
       <ButtonLoadMore onLoadMore={loadMore} />
       <Suspense fallback={<Loader center content="loading" />}>
         <Outlet />
