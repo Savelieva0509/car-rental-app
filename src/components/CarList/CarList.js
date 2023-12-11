@@ -13,6 +13,7 @@ import {
 
 const CarList = ({ cars }) => {
   const dispatch = useDispatch();
+  console.log(cars);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -31,9 +32,10 @@ const CarList = ({ cars }) => {
   };
 
   const favorite = useSelector(state => state.favorite);
+  console.log(favorite, 'favorite');
 
   const isFavorite = carId => {
-    return favorite.favoriteList.some(item => item === carId);
+    return favorite.some(item => item === carId);
   };
 
   const toggleFavorite = carId => {

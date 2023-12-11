@@ -3,7 +3,12 @@ import { carsReducer } from './cars-slice';
 import { favoriteReducer } from './favorite-slice';
 import totalCarsReducer from './totalCars-slice';
 
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer,FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER, } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -27,7 +32,9 @@ export const store = configureStore({
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
-      serializableCheck: false,
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
     }),
 });
 

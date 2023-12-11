@@ -8,32 +8,7 @@ const carsSlice = createSlice({
     isLoading: false,
     error: null,
   },
-  reducers: {
-    startLoading: state => {
-      state.isLoading = true;
-    },
-    setError: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    clearError: state => {
-      state.error = null;
-    },
-    carsLoaded: (state, action) => {
-      state.isLoading = false;
-      state.error = null;
-
-      const hasCommonElements = action.payload.some(payloadItem => {
-        return state.items.some(stateItem => stateItem.id === payloadItem.id);
-      });
-
-      if (hasCommonElements) {
-        state.items = action.payload;
-      } else {
-        state.items = [...state.items, ...action.payload];
-      }
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchCars.pending, state => {
@@ -42,11 +17,22 @@ const carsSlice = createSlice({
       .addCase(fetchCars.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(fetchCars.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = null;
+
+        const hasCommonElements = action.payload.some(payloadItem => {
+          return state.items.some(stateItem => stateItem.id === payloadItem.id);
+        });
+
+        if (hasCommonElements) {
+          state.items = action.payload;
+        } else {
+          state.items = [...state.items, ...action.payload];
+        }
       });
   },
 });
-
-export const { startLoading, setError, clearError, carsLoaded } =
-  carsSlice.actions;
 
 export const carsReducer = carsSlice.reducer;
