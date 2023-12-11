@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import { IoClose } from 'react-icons/io5';
 import css from '../Modal/Modal.module.css';
 
 const Modal = ({
@@ -52,8 +53,13 @@ useEffect(() => {
     <div className={css.Backdrop} onClick={onClose}>
       <div className={css.ModalContainer}>
         <div className={css.ContentWrapper}>
-          <button type="button" aria-label="close button" onClick={onClose}>
-            Закрыть
+          <button
+            type="button"
+            aria-label="close button"
+            onClick={onClose}
+            className={css.CloseButton}
+          >
+            <IoClose size={22} />
           </button>
           <img className={css.CarImg} src={img} alt={make} />
           <div className={css.InfoWrapper}>

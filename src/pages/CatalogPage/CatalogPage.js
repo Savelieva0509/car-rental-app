@@ -28,6 +28,7 @@ useEffect(() => {
     try {
       const total = await getTotalCars();
       dispatch(setTotalCars(total));
+      console.log(total, 'total');
     } catch (error) {
       console.error('Error fetching total cars:', error);
     } finally {

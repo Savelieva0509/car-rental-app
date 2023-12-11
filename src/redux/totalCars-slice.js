@@ -5,7 +5,6 @@ const totalCarsSlice = createSlice({
   initialState: [],
   reducers: {
     setTotalCars: (state, action) => {
-      console.log(action.payload, 'return action.payload from totalCarsSlice');
       return action.payload;
     },
   },
