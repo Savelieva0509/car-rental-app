@@ -15,6 +15,7 @@ export const fetchCars = createAsyncThunk(
       });
 
       const data = response.data;
+      console.log(data);
 
       return data;
     } catch (e) {
