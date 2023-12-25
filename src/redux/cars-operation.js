@@ -7,14 +7,15 @@ export const fetchCars = createAsyncThunk(
   'cars/fetchAll',
   async (page, thunkAPI) => {
     try {
-      const responce = await axios.get(`/cars`, {
+      const response = await axios.get(`/cars`, {
         params: {
           page: page,
           limit: 12,
         },
       });
 
-      const data = responce.data;
+      const data = response.data;
+      console.log(data);
 
       return data;
     } catch (e) {
