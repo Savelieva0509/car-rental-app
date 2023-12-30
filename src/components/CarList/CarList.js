@@ -13,7 +13,7 @@ import {
 
 const CarList = ({ cars }) => {
   const dispatch = useDispatch();
- 
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = carId => {
@@ -31,8 +31,7 @@ const CarList = ({ cars }) => {
   };
 
   const favorite = useSelector(state => state.favorite);
-  console.log(favorite);
- 
+
   const isFavorite = carId => {
     return favorite.some(item => item === carId);
   };

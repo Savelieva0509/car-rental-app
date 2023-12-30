@@ -13,7 +13,6 @@ const carsSlice = createSlice({
     builder
       .addCase(fetchCars.pending, state => {
         state.isLoading = true;
-        console.log('Fetch cars pending. State:', state);
       })
       .addCase(fetchCars.rejected, (state, action) => {
         state.isLoading = false;
@@ -30,13 +29,8 @@ const carsSlice = createSlice({
 
         if (hasCommonElements) {
           state.items = action.payload;
-          console.log(
-            'Fetch cars fulfilled with common elements. State:',
-            state
-          );
         } else {
           state.items = [...state.items, ...action.payload];
-          console.log('Fetch cars fulfilled with new elements. State:', state);
         }
       });
   },

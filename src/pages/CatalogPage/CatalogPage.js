@@ -12,10 +12,8 @@ import { fetchCars } from '../../redux/cars-operation';
 
 function CatalogPage() {
   const cars = useSelector(selectCars);
-  console.log(cars, 'cars');
 
   const totalCars = useSelector(selectTotalCars);
-  console.log(totalCars, 'totalCars');
 
   const dispatch = useDispatch();
 
@@ -23,24 +21,22 @@ function CatalogPage() {
   const [prevPage, setPrevPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const total = await getTotalCars();
-      dispatch(setTotalCars(total));
-      console.log(total, 'total');
-    } catch (error) {
-      console.error('Error fetching total cars:', error);
-    } finally {
-      setIsLoading(false); 
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const total = await getTotalCars();
+        dispatch(setTotalCars(total));
+      } catch (error) {
+        console.error('Error fetching total cars:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  setIsLoading(true); 
+    setIsLoading(true);
 
-  fetchData();
-}, [dispatch]);
-
+    fetchData();
+  }, [dispatch]);
 
   useEffect(() => {
     if (prevPage !== page) {
