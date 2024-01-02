@@ -53,7 +53,16 @@ function CatalogPage() {
     <div className={css.catalogContainer}>
       {isLoading && <Loader />}
       <CarList cars={cars} />
-      <ButtonLoadMore onLoadMore={loadMore} />
+      {cars.length !== 0 && (
+        <>
+          {/* <Filter /> */}
+          <CarList cars={cars} />
+
+          {totalCars.length > cars.length && (
+            <ButtonLoadMore onLoadMore={loadMore} />
+          )}
+        </>
+      )}
       <Suspense fallback={<Loader center content="loading" />}>
         <Outlet />
       </Suspense>
