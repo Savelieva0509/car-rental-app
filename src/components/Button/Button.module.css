@@ -1,0 +1,15 @@
+.buttonSearch {
+  min-width: 136px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #3470ff;
+  color: #ffffff;
+  font-family: Manrope;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.42;
+}
+
+.buttonSearch:hover {
+  background-color: #0b44cd;
+}
