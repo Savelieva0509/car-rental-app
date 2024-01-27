@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Select from 'react-select';
 import Button from 'components/Button/Button';
 import css from './Filter.module.css';
