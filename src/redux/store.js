@@ -13,6 +13,7 @@ import storage from 'redux-persist/lib/storage';
 
 import { carsReducer } from './cars-slice';
 import { favoriteReducer } from './favorite-slice';
+import { filterReducer } from './filter-slice';
 import totalCarsReducer from './totalCars-slice';
 
 const persistConfig = {
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   cars: carsReducer,
   favorite: favoriteReducer,
   totalCars: totalCarsReducer,
+  filterCars: filterReducer
 });
 
 const persistedRootReducer = persistReducer(persistConfig, rootReducer);
