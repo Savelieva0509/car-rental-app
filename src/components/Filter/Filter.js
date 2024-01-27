@@ -1,9 +1,40 @@
-import React from 'react';
+import {React, useState} from 'react';
 import Select from 'react-select';
 import Button from 'components/Button/Button';
 import css from './Filter.module.css';
 
-const Filter = () => {
+
+const Filter = ({
+  makes,
+  prices,
+  mileages,
+  handleMakeChange,
+  handlePriceChange,
+}) => {
+  const [selectedMake, setSelectedMake] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState(null);
+//console.log(prices);
+    const makeOptions = makes.map(make => ({ value: make, label: make })); 
+    const uniquePrices = Array.from(
+      new Set(prices.map(price => parseInt(price.slice(1))))
+    ).sort((a, b) => a - b);
+
+    
+    const priceOptions = uniquePrices.map(price => ({
+      value: price,
+      label: `${Math.floor(price / 10) * 10}`, 
+    }));
+    
+  const onFilterMake = selectedOption => {
+    setSelectedMake(selectedOption);
+    handleMakeChange(selectedOption); 
+    };
+    
+    const onFilterPrice = selectedOption => {
+      setSelectedPrice(selectedOption);
+      handlePriceChange(selectedOption);
+    };
+
   return (
     <div className={css.Container}>
       <div className={css.SelectContainer}>
@@ -13,10 +44,10 @@ const Filter = () => {
         <Select
           id="nameSelect"
           placeholder="Enter the text"
-          value=""
+          value={selectedMake}
           isClearable={true}
-          onChange=""
-          options=""
+          onChange={onFilterMake}
+          options={makeOptions}
           styles={selectStyles}
           components={{
             IndicatorSeparator: () => null,
@@ -30,9 +61,9 @@ const Filter = () => {
         <Select
           id="priceSelect"
           placeholder="To $"
-          value=""
-          onChange=""
-          options=""
+          value={selectedPrice}
+          onChange={onFilterPrice}
+          options={priceOptions}
           styles={selectStyles}
           components={{
             IndicatorSeparator: () => null,
@@ -52,6 +83,7 @@ const Filter = () => {
     </div>
   );
 };
+export default Filter;
 
 const selectStyles = {
   control: styles => ({
@@ -83,4 +115,4 @@ const selectStyles = {
   }),
 };
 
-export default Filter;
+
