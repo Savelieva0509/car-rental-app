@@ -1,0 +1,78 @@
+.Container {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 50px;
+  gap: 8px;
+}
+
+.SelectContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.Label {
+  font-size: 14px;
+  color: rgba(138, 138, 137, 1);
+  font-family: 'Manrope';
+  padding-left: 5px;
+  margin-bottom: 8px;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.InputContainer {
+  display: flex;
+  position: relative;
+  height: 48px;
+}
+
+.InputLeft,
+.InputRight {
+  display: block;
+  height: 48px;
+  border: none;
+  background-color: rgba(247, 247, 251, 1);
+  font-family: 'Manrope';
+  color: rgba(18, 20, 23, 1);
+  font-size: 18px;
+}
+
+.InputLeft:focus,
+.InputRight:focus {
+  outline-color: #3470ff;
+}
+
+.InputLeft {
+  width: 160px;
+  border-right: 1px solid rgba(138, 138, 137, 0.2);
+  border-radius: 14px 0 0 14px;
+  text-indent: 70px;
+}
+
+.InputRight {
+  width: 160px;
+  border-radius: 0 14px 14px 0;
+  text-indent: 45px;
+}
+
+.SpanRight,
+.SpanLeft {
+  position: absolute;
+  display: block;
+  z-index: 9;
+  font-family: 'Manrope';
+  color: rgba(18, 20, 23, 1);
+  font-size: 18px;
+}
+
+.SpanRight {
+  left: 180px;
+  top: 15px;
+}
+.SpanLeft {
+  left: 20px;
+  top: 15px;
+}

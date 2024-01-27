@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import Loader from 'components/Loader/Loader';
 import CarList from 'components/CarList/CarList';
+import Filter from 'components/Filter/Filter';
 import css from '../CatalogPage/CatalogPage.module.css';
 import { getTotalCars } from '../../Api';
 import ButtonLoadMore from 'components/ButtonLoadMore/ButtonLoadMore';
@@ -52,10 +53,11 @@ function CatalogPage() {
   return (
     <div className={css.catalogContainer}>
       {isLoading && <Loader />}
+      <Filter /> 
       <CarList cars={cars} />
       {cars.length !== 0 && (
         <>
-          {/* <Filter /> */}
+          
           <CarList cars={cars} />
 
           {totalCars.length > cars.length && (
