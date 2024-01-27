@@ -14,15 +14,16 @@ import {
   selectSelectedMake,
   selectSelectedPrice,
 } from '../../redux/filter-slice';
-import { setTotalCars, selectTotalCars } from '../../redux/totalCars-slice';
+import { setTotalCars} from '../../redux/totalCars-slice';
 import { fetchCars } from '../../redux/cars-operation';
 
 function CatalogPage() {
   const cars = useSelector(selectCars);
-  const totalCars = useSelector(selectTotalCars);
+  //const totalCars = useSelector(selectTotalCars);
   const selectedMake = useSelector(selectSelectedMake);
   const selectedPrice = useSelector(selectSelectedPrice);
-   
+  
+  
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
