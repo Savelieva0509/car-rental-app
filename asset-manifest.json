@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/car-rental-app/static/css/main.fc97b8ef.css",
-    "main.js": "/car-rental-app/static/js/main.c983c4f3.js",
+    "main.js": "/car-rental-app/static/js/main.2709d2d9.js",
     "static/css/305.b10a58f7.chunk.css": "/car-rental-app/static/css/305.b10a58f7.chunk.css",
     "static/js/305.0a9cc3e6.chunk.js": "/car-rental-app/static/js/305.0a9cc3e6.chunk.js",
     "static/css/765.509a84d2.chunk.css": "/car-rental-app/static/css/765.509a84d2.chunk.css",
-    "static/js/765.afaa7550.chunk.js": "/car-rental-app/static/js/765.afaa7550.chunk.js",
+    "static/js/765.ed5c9c4f.chunk.js": "/car-rental-app/static/js/765.ed5c9c4f.chunk.js",
     "static/css/418.630b25ff.chunk.css": "/car-rental-app/static/css/418.630b25ff.chunk.css",
     "static/js/418.8fe82749.chunk.js": "/car-rental-app/static/js/418.8fe82749.chunk.js",
     "static/js/247.55396d64.chunk.js": "/car-rental-app/static/js/247.55396d64.chunk.js",
@@ -16,11 +16,11 @@
     "static/media/giftCar.jpg": "/car-rental-app/static/media/giftCar.5e68e63b9d98ad15bc75.jpg",
     "index.html": "/car-rental-app/index.html",
     "main.fc97b8ef.css.map": "/car-rental-app/static/css/main.fc97b8ef.css.map",
-    "main.c983c4f3.js.map": "/car-rental-app/static/js/main.c983c4f3.js.map",
+    "main.2709d2d9.js.map": "/car-rental-app/static/js/main.2709d2d9.js.map",
     "305.b10a58f7.chunk.css.map": "/car-rental-app/static/css/305.b10a58f7.chunk.css.map",
     "305.0a9cc3e6.chunk.js.map": "/car-rental-app/static/js/305.0a9cc3e6.chunk.js.map",
     "765.509a84d2.chunk.css.map": "/car-rental-app/static/css/765.509a84d2.chunk.css.map",
-    "765.afaa7550.chunk.js.map": "/car-rental-app/static/js/765.afaa7550.chunk.js.map",
+    "765.ed5c9c4f.chunk.js.map": "/car-rental-app/static/js/765.ed5c9c4f.chunk.js.map",
     "418.630b25ff.chunk.css.map": "/car-rental-app/static/css/418.630b25ff.chunk.css.map",
     "418.8fe82749.chunk.js.map": "/car-rental-app/static/js/418.8fe82749.chunk.js.map",
     "247.55396d64.chunk.js.map": "/car-rental-app/static/js/247.55396d64.chunk.js.map",
@@ -29,6 +29,6 @@
   },
   "entrypoints": [
     "static/css/main.fc97b8ef.css",
-    "static/js/main.c983c4f3.js"
+    "static/js/main.2709d2d9.js"
   ]
 }
