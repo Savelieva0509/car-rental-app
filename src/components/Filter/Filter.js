@@ -14,8 +14,7 @@ const Filter = ({
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
-  const [minMileage, setMinMileage] = useState('');
-  const [maxMileage, setMaxMileage] = useState('');
+  
 
   const makeOptions = makes.map(make => ({ value: make, label: make }));
   const uniquePrices = Array.from(
@@ -27,15 +26,17 @@ const Filter = ({
     label: `${Math.floor(price / 10) * 10}`,
   }));
 
-  const onFilterMake = selectedOption => {
-    setSelectedMake(selectedOption);
-    handleMakeChange(selectedOption);
-  };
+ const onFilterMake = selectedOption => {
+   setSelectedMake(selectedOption);
+   handleMakeChange(selectedOption);
+   //console.log('Selected Make:', selectedOption);
+ };
 
-  const onFilterPrice = selectedOption => {
-    setSelectedPrice(selectedOption);
-    handlePriceChange(selectedOption);
-  };
+ const onFilterPrice = selectedOption => {
+   setSelectedPrice(selectedOption);
+   handlePriceChange(selectedOption);
+   //console.log('Selected Price:', selectedOption);
+ };
 
   const handleInputChange = (e, setValue) => {
     const inputValue = e.target.value;
@@ -102,7 +103,7 @@ const Filter = ({
       </form>
       <Button
         onClick={() =>
-          handleFilterClick(selectedMake, selectedPrice, minMileage, maxMileage)
+          handleFilterClick(selectedMake, selectedPrice, minValue, maxValue)
         }
       />
     </div>
