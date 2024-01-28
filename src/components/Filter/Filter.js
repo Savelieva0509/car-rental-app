@@ -1,8 +1,7 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import Select from 'react-select';
 import Button from 'components/Button/Button';
 import css from './Filter.module.css';
-
 
 const Filter = ({
   makes,
@@ -13,27 +12,36 @@ const Filter = ({
 }) => {
   const [selectedMake, setSelectedMake] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState(null);
-//console.log(prices);
-    const makeOptions = makes.map(make => ({ value: make, label: make })); 
-    const uniquePrices = Array.from(
-      new Set(prices.map(price => parseInt(price.slice(1))))
-    ).sort((a, b) => a - b);
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
+  //console.log(prices);
+  const makeOptions = makes.map(make => ({ value: make, label: make }));
+  const uniquePrices = Array.from(
+    new Set(prices.map(price => parseInt(price.slice(1))))
+  ).sort((a, b) => a - b);
 
-    
-    const priceOptions = uniquePrices.map(price => ({
-      value: price,
-      label: `${Math.floor(price / 10) * 10}`, 
-    }));
-    
+  const priceOptions = uniquePrices.map(price => ({
+    value: price,
+    label: `${Math.floor(price / 10) * 10}`,
+  }));
+
   const onFilterMake = selectedOption => {
     setSelectedMake(selectedOption);
-    handleMakeChange(selectedOption); 
-    };
-    
-    const onFilterPrice = selectedOption => {
-      setSelectedPrice(selectedOption);
-      handlePriceChange(selectedOption);
-    };
+    handleMakeChange(selectedOption);
+  };
+
+  const onFilterPrice = selectedOption => {
+    setSelectedPrice(selectedOption);
+    handlePriceChange(selectedOption);
+  };
+
+  const handleInputChange = (e, setValue) => {
+    const inputValue = e.target.value;
+
+    if (/^\d*$/.test(inputValue) || inputValue === '') {
+      setValue(inputValue);
+    }
+  };
 
   return (
     <div className={css.Container}>
@@ -73,10 +81,21 @@ const Filter = ({
       <form className={css.Form}>
         <label className={css.Label}>Car mileage / km</label>
         <div className={css.InputContainer}>
-          <input className={css.InputLeft} type="text" value="" onChange="" />
-          <span className={css.SpanLeft}>From</span>
-          <input className={css.InputRight} type="text" value="" onChange="" />
-          <span className={css.SpanRight}>To</span>
+          <input
+            className={css.InputLeft}
+            type="text"
+            placeholder="From"
+            value={minValue}
+            onChange={e => handleInputChange(e, setMinValue)}
+          />
+
+          <input
+            className={css.InputRight}
+            placeholder="To"
+            type="text"
+            value={maxValue}
+            onChange={e => handleInputChange(e, setMaxValue)}
+          />
         </div>
       </form>
       <Button onClick="" />
@@ -114,5 +133,3 @@ const selectStyles = {
     transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : null,
   }),
 };
-
-
