@@ -6,15 +6,17 @@ import css from './Filter.module.css';
 const Filter = ({
   makes,
   prices,
-  mileages,
   handleMakeChange,
   handlePriceChange,
+  handleFilterClick
 }) => {
   const [selectedMake, setSelectedMake] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState(null);
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
-  //console.log(prices);
+  const [minMileage, setMinMileage] = useState('');
+  const [maxMileage, setMaxMileage] = useState('');
+
   const makeOptions = makes.map(make => ({ value: make, label: make }));
   const uniquePrices = Array.from(
     new Set(prices.map(price => parseInt(price.slice(1))))
@@ -98,7 +100,11 @@ const Filter = ({
           />
         </div>
       </form>
-      <Button onClick="" />
+      <Button
+        onClick={() =>
+          handleFilterClick(selectedMake, selectedPrice, minMileage, maxMileage)
+        }
+      />
     </div>
   );
 };
