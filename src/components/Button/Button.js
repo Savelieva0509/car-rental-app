@@ -1,8 +1,8 @@
 import css from '../Button/Button.module.css';
 
-const Button = ({ text, onClick, width }) => {
+const Button = ({ onClick }) => {
     return (
-      <button type="button"className={css.buttonSearch}>
+      <button type="button"className={css.buttonSearch} onClick={onClick}>
             Search
       </button>
   );
