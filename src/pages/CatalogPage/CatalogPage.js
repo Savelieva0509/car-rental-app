@@ -8,38 +8,29 @@ import css from '../CatalogPage/CatalogPage.module.css';
 import { getTotalCars } from '../../Api';
 import ButtonLoadMore from 'components/ButtonLoadMore/ButtonLoadMore';
 import { selectCars } from '../../redux/cars-selector';
-
-import {
-  setFilterMake,
-  setFilterPrice,
-  setFilterMinMileage,
-  setFilterMaxMileage,
-  selectSelectedMake,
-  selectSelectedPrice,
-  selectMinMileage,
-  selectMaxMileage,
-} from '../../redux/filter-slice';
-import { setTotalCars } from '../../redux/totalCars-slice';
+import { setTotalCars, selectTotalCars } from '../../redux/totalCars-slice';
 import { fetchCars } from '../../redux/cars-operation';
 
 function CatalogPage() {
   const cars = useSelector(selectCars);
-  //const totalCars = useSelector(selectTotalCars);
-  const selectedMake = useSelector(selectSelectedMake);
-  const selectedPrice = useSelector(selectSelectedPrice);
-  const selectedMinMileage = useSelector(selectMinMileage);
-  const selectedMaxMileage = useSelector(selectMaxMileage);
+
+  const totalCars = useSelector(selectTotalCars);
 
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
   const [prevPage, setPrevPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [filteredCars, setFilteredCars] = useState([]);
-  const [carMakes, setCarMakes] = useState([]);
-  const [carPrices, setCarPrices] = useState([]);
 
-  console.log(carPrices);
+  const [filters, setFilters] = useState({
+    make: '',
+    filteredPrices: [],
+    minMileage: '',
+    maxMileage: '',
+  });
+  const [filteredCars, setFilteredCars] = useState(null);
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [error] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,95 +56,100 @@ function CatalogPage() {
     }
   }, [dispatch, page, prevPage]);
 
-  useEffect(() => {
-    const makes = [...new Set(cars.map(car => car.make))];
-    setCarMakes(makes);
-
-    const prices = [...new Set(cars.map(car => car.rentalPrice))];
-    setCarPrices(prices);
-    
-    const filteredCars = cars.filter(car => {
-      const makeFilter = !selectedMake || car.make === selectedMake.label;
-      const priceFilter =
-        !selectedPrice ||
-        parseFloat(car.rentalPrice.slice(1)) === selectedPrice.value;
-      const mileageFilter =
-        (!selectedMinMileage || car.mileage >= selectedMinMileage) &&
-        (!selectedMaxMileage || car.mileage <= selectedMaxMileage);
-
-       const passedFilters = makeFilter && priceFilter && mileageFilter;
-
-      //console.log('Car:', car, 'Passed Filters:', passedFilters);
-
-       return passedFilters;
-    });
-console.log('Filtered Cars:', filteredCars);
-    setFilteredCars(filteredCars);
-  }, [
-    cars,
-    selectedMake,
-    selectedPrice,
-    selectedMinMileage,
-    selectedMaxMileage,
-  ]);
-  const handleMakeChange = selectedMake => {
-    dispatch(setFilterMake(selectedMake));
-  };
-
-  const handlePriceChange = selectedPrice => {
-    dispatch(setFilterPrice(selectedPrice));
-  };
-
-  const handleFilterClick = (
-    selectedMake,
-    selectedPrice,
-    selectedMinMileage,
-    selectedMaxMileage
-  ) => {
-    dispatch(setFilterMake(selectedMake));
-    dispatch(setFilterPrice(selectedPrice));
-    dispatch(setFilterMinMileage(selectedMinMileage));
-    dispatch(setFilterMaxMileage(selectedMaxMileage));
-
-// console.log('Filter Clicked!');
-// console.log('Selected Make:', selectedMake);
-// console.log('Selected Price:', selectedPrice);
-// console.log('Selected Min Mileage:', selectedMinMileage);
-// console.log('Selected Max Mileage:', selectedMaxMileage);
-
-
-
-    const filteredCars = cars.filter(car => {
-      const makeFilter = !selectedMake || car.make === selectedMake.label;
-      const priceFilter =
-        !selectedPrice ||
-        parseFloat(car.rentalPrice.slice(1)) === selectedPrice.value;
-      const mileageFilter =
-        (!selectedMinMileage || car.mileage >= selectedMinMileage) &&
-        (!selectedMaxMileage || car.mileage <= selectedMaxMileage);
-
-      return makeFilter && priceFilter && mileageFilter;
-    });
-
-    setFilteredCars(filteredCars);
-  };
-
   const loadMore = () => {
     setPage(prevPage => prevPage + 1);
   };
+
+  const makes = cars ? [...new Set(cars.map(car => car.make))] : [];
+  const prices = cars
+    ? [...new Set(cars.map(car => car.rentalPrice.replace('$', '')))]
+    : [];
+
+  
+  
+  
+  useEffect(() => {
+       if (isFiltering) {
+      console.log('Applying Filters');
+      if (
+        filters.make ||
+        filters.filteredPrices.length > 0 ||
+        filters.minMileage ||
+        filters.maxMileage
+      ) {
+        console.log('Inside Filters Block');
+        const filteredCars = cars.filter(car => {
+          
+          console.log('Checking Car:', car);
+          if (filters.make && car.make !== filters.make.value) {
+            console.log('Make Filter Failed');
+            return false;
+          }
+          if (
+            filters.filteredPrices.length > 0 &&
+            !filters.filteredPrices.some(
+              priceObj => priceObj.value === car.rentalPrice.replace('$', '')
+            )
+          ) {
+            console.log('Price Filter Failed');
+            return false;
+          }
+          if (filters.minMileage && car.mileage < filters.minMileage) {
+            console.log('Min Mileage Filter Failed');
+            return false;
+          }
+          if (filters.maxMileage && car.mileage > filters.maxMileage) {
+            console.log('Max Mileage Filter Failed');
+            return false;
+          }
+          console.log('Passed All Filters');
+          return true;
+        });
+
+        console.log('Filtered Cars:', filteredCars);
+        setFilteredCars(filteredCars);
+      } else {
+        console.log('No Filters Applied');
+        setFilteredCars([]); // Используем пустой массив, если нет фильтров
+      }
+    }
+  }, [filters, cars, isFiltering]);
+
+  
+const renderedCars = isFiltering ? (
+  // Відображення відфільтрованих оголошень або повідомлення про відсутність співпадінь
+  filteredCars !== null && filteredCars.length > 0 ? (
+    filteredCars.map((car, index) => <CarList key={index} cars={[car]} />)
+  ) : (
+    <div>No matches found based on the chosen criteria.</div>
+  )
+) : error ? (
+  // Відображення повідомлення про помилку
+  <>Oops, there was an error...</>
+) : isLoading ? (
+  // Відображення компонента завантаження
+  <Loader />
+) : cars.length > 0 ? (
+  // Відображення списку автомобілів
+  <CarList cars={cars} />
+  ) : null;
+  
 
   return (
     <div className={css.catalogContainer}>
       {isLoading && <Loader />}
       <Filter
-        makes={carMakes}
-        prices={carPrices}
-        handleMakeChange={handleMakeChange}
-        handlePriceChange={handlePriceChange}
-        handleFilterClick={handleFilterClick}
+        makes={makes}
+        prices={prices}
+        onFilterChange={newFilters => {
+          setFilters(newFilters);
+          setIsFiltering(true);
+        }}
       />
-      <CarList cars={filteredCars.length !== 0 ? filteredCars : cars} />
-      {cars.length !== 0 && <ButtonLoadMore onLoadMore={loadMore} />}
+      {renderedCars}
+      {!isFiltering && totalCars.length > cars.length && (
+        <ButtonLoadMore onLoadMore={loadMore} />
+      )}
       <Suspense fallback={<Loader center content="loading" />}>
         <Outlet />
       </Suspense>

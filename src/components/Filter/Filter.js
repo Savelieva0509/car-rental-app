@@ -1,51 +1,76 @@
 import { React, useState } from 'react';
+import { toast } from 'react-toastify';
 import Select from 'react-select';
 import Button from 'components/Button/Button';
 import css from './Filter.module.css';
 
-const Filter = ({
-  makes,
-  prices,
-  handleMakeChange,
-  handlePriceChange,
-  handleFilterClick
-}) => {
+const Filter = ({ makes, prices, onFilterChange }) => {
   const [selectedMake, setSelectedMake] = useState(null);
-  const [selectedPrice, setSelectedPrice] = useState(null);
+  const [selectedPriceStep, setSelectedPriceStep] = useState(null);
+  const [selectedPriceLabel, setSelectedPriceLabel] = useState('');
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
-  
 
+  // Перетворення масиву марок автомобілів у формат опцій для Select
   const makeOptions = makes.map(make => ({ value: make, label: make }));
-  const uniquePrices = Array.from(
-    new Set(prices.map(price => parseInt(price.slice(1))))
-  ).sort((a, b) => a - b);
 
-  const priceOptions = uniquePrices.map(price => ({
-    value: price,
-    label: `${Math.floor(price / 10) * 10}`,
-  }));
+  // Генерація діапазону цін для вибору
+  const priceRangeOptions = Array.from({ length: 48 }, (_, index) => {
+    const price = 30 + index * 10;
+    return { value: price, label: `${price}` };
+  });
 
- const onFilterMake = selectedOption => {
-   setSelectedMake(selectedOption);
-   handleMakeChange(selectedOption);
-   //console.log('Selected Make:', selectedOption);
- };
+  // Обробник зміни вибраної цінової категорії
+  const handlePriceStepChange = selectedOption => {
+    setSelectedPriceStep(selectedOption.value);
+    setSelectedPriceLabel(selectedOption.label);
+  };
 
- const onFilterPrice = selectedOption => {
-   setSelectedPrice(selectedOption);
-   handlePriceChange(selectedOption);
-   //console.log('Selected Price:', selectedOption);
- };
+  // Фільтрація цін відповідно до вибраної цінової категорії
+  const filteredPrices = prices.filter(price => price <= selectedPriceStep);
+  console.log(filteredPrices);
 
+  // Форматування введених значень для відображення в компоненті
+  const formatMileage = value => {
+    const cleanedValue = value.toString().replace(/,/g, '');
+    const formattedValue = cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return formattedValue;
+  };
+
+  // Обробник зміни введених значень
   const handleInputChange = (e, setValue) => {
     const inputValue = e.target.value;
 
-    if (/^\d*$/.test(inputValue) || inputValue === '') {
-      setValue(inputValue);
-    }
+    setValue(inputValue);
   };
 
+  const handleFilterClick = () => {
+    const minMileage = parseInt(minValue.replace(/,/g, ''), 10);
+    const maxMileage = parseInt(maxValue.replace(/,/g, ''), 10);
+
+    console.log('Input values:', minValue, maxValue);
+    console.log('Parsed mileage values:', minMileage, maxMileage);
+
+    // Перевірка, чи максимальний пробіг перевищує мінімальний
+    if (minMileage > maxMileage) {
+      toast.error('The maximum mileage must exceed the minimum mileage.');
+      return;
+    }
+
+    // Створення об'єкта з новими фільтрами та передача їх до батьківського компонента
+    const newFilters = {
+      make: selectedMake,
+      filteredPrices:
+        filteredPrices.map(price => ({
+          value: price,
+          label: `${price}`,
+        })) || [],
+      minMileage,
+      maxMileage,
+    };
+    console.log(newFilters, 'newFilters');
+    onFilterChange(newFilters);
+  };
   return (
     <div className={css.Container}>
       <div className={css.SelectContainer}>
@@ -57,7 +82,7 @@ const Filter = ({
           placeholder="Enter the text"
           value={selectedMake}
           isClearable={true}
-          onChange={onFilterMake}
+          onChange={selectedOption => setSelectedMake(selectedOption)}
           options={makeOptions}
           styles={selectStyles}
           components={{
@@ -72,9 +97,14 @@ const Filter = ({
         <Select
           id="priceSelect"
           placeholder="To $"
-          value={selectedPrice}
-          onChange={onFilterPrice}
-          options={priceOptions}
+          isClearable={true}
+          value={
+            selectedPriceStep
+              ? { value: selectedPriceStep, label: selectedPriceLabel }
+              : null
+          }
+          onChange={handlePriceStepChange}
+          options={priceRangeOptions}
           styles={selectStyles}
           components={{
             IndicatorSeparator: () => null,
@@ -88,7 +118,7 @@ const Filter = ({
             className={css.InputLeft}
             type="text"
             placeholder="From"
-            value={minValue}
+            value={formatMileage(minValue)}
             onChange={e => handleInputChange(e, setMinValue)}
           />
 
@@ -96,16 +126,12 @@ const Filter = ({
             className={css.InputRight}
             placeholder="To"
             type="text"
-            value={maxValue}
+            value={formatMileage(maxValue)}
             onChange={e => handleInputChange(e, setMaxValue)}
           />
         </div>
       </form>
-      <Button
-        onClick={() =>
-          handleFilterClick(selectedMake, selectedPrice, minValue, maxValue)
-        }
-      />
+      <Button onClick={handleFilterClick} />
     </div>
   );
 };
