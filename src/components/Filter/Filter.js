@@ -11,40 +11,31 @@ const Filter = ({ makes, prices, onFilterChange }) => {
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
 
-  // Перетворення масиву марок автомобілів у формат опцій для Select
   const makeOptions = makes.map(make => ({ value: make, label: make }));
 
-  // Генерація діапазону цін для вибору
   const priceRangeOptions = Array.from({ length: 48 }, (_, index) => {
     const price = 30 + index * 10;
     return { value: price, label: `${price}` };
   });
 
-  // Обробник зміни вибраної цінової категорії
-const handlePriceStepChange = selectedOption => {
-  console.log('handlePriceStepChange', selectedOption);
-  if (selectedOption) {
-    setSelectedPriceStep(selectedOption.value);
-    setSelectedPriceLabel(selectedOption.label);
-  } else {
-    console.log('Clearing price selection');
-    setSelectedPriceStep(null);
-    setSelectedPriceLabel('');
-  }
-};
+  const handlePriceStepChange = selectedOption => {
+    if (selectedOption) {
+      setSelectedPriceStep(selectedOption.value);
+      setSelectedPriceLabel(selectedOption.label);
+    } else {
+      setSelectedPriceStep(null);
+      setSelectedPriceLabel('');
+    }
+  };
 
-  // Фільтрація цін відповідно до вибраної цінової категорії
   const filteredPrices = prices.filter(price => price <= selectedPriceStep);
-  console.log(filteredPrices);
 
-  // Форматування введених значень для відображення в компоненті
   const formatMileage = value => {
     const cleanedValue = value.toString().replace(/,/g, '');
     const formattedValue = cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return formattedValue;
   };
 
-  // Обробник зміни введених значень
   const handleInputChange = (e, setValue) => {
     const inputValue = e.target.value;
 
@@ -55,16 +46,11 @@ const handlePriceStepChange = selectedOption => {
     const minMileage = parseInt(minValue.replace(/,/g, ''), 10);
     const maxMileage = parseInt(maxValue.replace(/,/g, ''), 10);
 
-    console.log('Input values:', minValue, maxValue);
-    console.log('Parsed mileage values:', minMileage, maxMileage);
-
-    // Перевірка, чи максимальний пробіг перевищує мінімальний
     if (minMileage > maxMileage) {
       toast.error('The maximum mileage must exceed the minimum mileage.');
       return;
     }
 
-    // Створення об'єкта з новими фільтрами та передача їх до батьківського компонента
     const newFilters = {
       make: selectedMake,
       filteredPrices:
