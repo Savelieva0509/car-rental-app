@@ -21,10 +21,17 @@ const Filter = ({ makes, prices, onFilterChange }) => {
   });
 
   // Обробник зміни вибраної цінової категорії
-  const handlePriceStepChange = selectedOption => {
+const handlePriceStepChange = selectedOption => {
+  console.log('handlePriceStepChange', selectedOption);
+  if (selectedOption) {
     setSelectedPriceStep(selectedOption.value);
     setSelectedPriceLabel(selectedOption.label);
-  };
+  } else {
+    console.log('Clearing price selection');
+    setSelectedPriceStep(null);
+    setSelectedPriceLabel('');
+  }
+};
 
   // Фільтрація цін відповідно до вибраної цінової категорії
   const filteredPrices = prices.filter(price => price <= selectedPriceStep);

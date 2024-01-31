@@ -85,15 +85,16 @@ function CatalogPage() {
             console.log('Make Filter Failed');
             return false;
           }
-          if (
-            filters.filteredPrices.length > 0 &&
-            !filters.filteredPrices.some(
-              priceObj => priceObj.value === car.rentalPrice.replace('$', '')
-            )
-          ) {
-            console.log('Price Filter Failed');
-            return false;
-          }
+
+         if (
+           filters.filteredPrices.length > 0 &&
+           !filters.filteredPrices.some(
+             priceObj => priceObj.value === car.rentalPrice.replace('$', '')
+           )
+         ) {
+           return false;
+         }
+
           if (filters.minMileage && car.mileage < filters.minMileage) {
             console.log('Min Mileage Filter Failed');
             return false;
@@ -119,7 +120,7 @@ function CatalogPage() {
 const renderedCars = isFiltering ? (
   // Відображення відфільтрованих оголошень або повідомлення про відсутність співпадінь
   filteredCars !== null && filteredCars.length > 0 ? (
-    filteredCars.map((car, index) => <CarList key={index} cars={[car]} />)
+    <CarList cars={filteredCars} />
   ) : (
     <div>No matches found based on the chosen criteria.</div>
   )
@@ -132,8 +133,7 @@ const renderedCars = isFiltering ? (
 ) : cars.length > 0 ? (
   // Відображення списку автомобілів
   <CarList cars={cars} />
-  ) : null;
-  
+) : null;
 
   return (
     <div className={css.catalogContainer}>
