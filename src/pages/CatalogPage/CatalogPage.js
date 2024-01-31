@@ -28,7 +28,7 @@ function CatalogPage() {
     minMileage: '',
     maxMileage: '',
   });
-  const [filteredCars, setFilteredCars] = useState(null);
+  const [filteredCars, setFilteredCars] = useState([]);
   const [isFiltering, setIsFiltering] = useState(false);
   const [error] = useState(null);
 
@@ -65,75 +65,58 @@ function CatalogPage() {
     ? [...new Set(cars.map(car => car.rentalPrice.replace('$', '')))]
     : [];
 
-  
-  
-  
   useEffect(() => {
-       if (isFiltering) {
-      console.log('Applying Filters');
+    if (isFiltering) {
       if (
         filters.make ||
         filters.filteredPrices.length > 0 ||
         filters.minMileage ||
         filters.maxMileage
       ) {
-        console.log('Inside Filters Block');
         const filteredCars = cars.filter(car => {
-          
-          console.log('Checking Car:', car);
           if (filters.make && car.make !== filters.make.value) {
-            console.log('Make Filter Failed');
             return false;
           }
 
-         if (
-           filters.filteredPrices.length > 0 &&
-           !filters.filteredPrices.some(
-             priceObj => priceObj.value === car.rentalPrice.replace('$', '')
-           )
-         ) {
-           return false;
-         }
+          if (
+            filters.filteredPrices.length > 0 &&
+            !filters.filteredPrices.some(
+              priceObj => priceObj.value === car.rentalPrice.replace('$', '')
+            )
+          ) {
+            return false;
+          }
 
           if (filters.minMileage && car.mileage < filters.minMileage) {
-            console.log('Min Mileage Filter Failed');
             return false;
           }
           if (filters.maxMileage && car.mileage > filters.maxMileage) {
-            console.log('Max Mileage Filter Failed');
             return false;
           }
-          console.log('Passed All Filters');
+
           return true;
         });
 
-        console.log('Filtered Cars:', filteredCars);
         setFilteredCars(filteredCars);
       } else {
-        console.log('No Filters Applied');
-        setFilteredCars([]); // Используем пустой массив, если нет фильтров
+        setFilteredCars([]);
       }
     }
   }, [filters, cars, isFiltering]);
 
-  
-const renderedCars = isFiltering ? (
-  // Відображення відфільтрованих оголошень або повідомлення про відсутність співпадінь
-  filteredCars !== null && filteredCars.length > 0 ? (
-    <CarList cars={filteredCars} />
-  ) : (
-    <div>No matches found based on the chosen criteria.</div>
-  )
-) : error ? (
-  // Відображення повідомлення про помилку
-  <>Oops, there was an error...</>
-) : isLoading ? (
-  // Відображення компонента завантаження
-  <Loader />
-) : cars.length > 0 ? (
-  // Відображення списку автомобілів
-  <CarList cars={cars} />
-) : null;
+  const renderedCars = isFiltering ? (
+    filteredCars !== null && filteredCars.length > 0 ? (
+      <CarList cars={filteredCars} />
+    ) : (
+      <div>No matches found based on the chosen criteria.</div>
+    )
+  ) : error ? (
+    <>Oops, there was an error...</>
+  ) : isLoading ? (
+    <Loader />
+  ) : cars.length > 0 ? (
+    <CarList cars={cars} />
+  ) : null;
 
   return (
     <div className={css.catalogContainer}>

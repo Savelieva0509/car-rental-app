@@ -11,6 +11,10 @@ const Filter = ({ makes, prices, onFilterChange }) => {
   const [minValue, setMinValue] = useState('');
   const [maxValue, setMaxValue] = useState('');
 
+  const [, setIsMakeFiltering] = useState(false);
+  const [, setIsPriceFiltering] = useState(false);
+  const [, setIsMileageFiltering] = useState(false);
+
   const makeOptions = makes.map(make => ({ value: make, label: make }));
 
   const priceRangeOptions = Array.from({ length: 48 }, (_, index) => {
@@ -22,9 +26,11 @@ const Filter = ({ makes, prices, onFilterChange }) => {
     if (selectedOption) {
       setSelectedPriceStep(selectedOption.value);
       setSelectedPriceLabel(selectedOption.label);
+      setIsPriceFiltering(true);
     } else {
       setSelectedPriceStep(null);
       setSelectedPriceLabel('');
+      setIsPriceFiltering(false);
     }
   };
 
@@ -40,6 +46,7 @@ const Filter = ({ makes, prices, onFilterChange }) => {
     const inputValue = e.target.value;
 
     setValue(inputValue);
+    setIsMileageFiltering(!!inputValue);
   };
 
   const handleFilterClick = () => {
@@ -64,6 +71,7 @@ const Filter = ({ makes, prices, onFilterChange }) => {
     console.log(newFilters, 'newFilters');
     onFilterChange(newFilters);
   };
+
   return (
     <div className={css.Container}>
       <div className={css.SelectContainer}>
@@ -75,7 +83,10 @@ const Filter = ({ makes, prices, onFilterChange }) => {
           placeholder="Enter the text"
           value={selectedMake}
           isClearable={true}
-          onChange={selectedOption => setSelectedMake(selectedOption)}
+          onChange={selectedOption => {
+            setSelectedMake(selectedOption);
+            setIsMakeFiltering(!!selectedOption);
+          }}
           options={makeOptions}
           styles={selectStyles}
           components={{
@@ -96,7 +107,10 @@ const Filter = ({ makes, prices, onFilterChange }) => {
               ? { value: selectedPriceStep, label: selectedPriceLabel }
               : null
           }
-          onChange={handlePriceStepChange}
+          onChange={selectedOption => {
+            handlePriceStepChange(selectedOption);
+            setIsPriceFiltering(!!selectedOption);
+          }}
           options={priceRangeOptions}
           styles={selectStyles}
           components={{
@@ -112,7 +126,9 @@ const Filter = ({ makes, prices, onFilterChange }) => {
             type="text"
             placeholder="From"
             value={formatMileage(minValue)}
-            onChange={e => handleInputChange(e, setMinValue)}
+            onChange={e =>
+              handleInputChange(e, setMinValue, setIsMileageFiltering)
+            }
           />
 
           <input
@@ -120,7 +136,9 @@ const Filter = ({ makes, prices, onFilterChange }) => {
             placeholder="To"
             type="text"
             value={formatMileage(maxValue)}
-            onChange={e => handleInputChange(e, setMaxValue)}
+            onChange={e =>
+              handleInputChange(e, setMaxValue, setIsMileageFiltering)
+            }
           />
         </div>
       </form>
