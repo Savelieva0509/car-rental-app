@@ -120,7 +120,6 @@ function CatalogPage() {
 
   return (
     <div className={css.catalogContainer}>
-      {isLoading && <Loader />}
       <Filter
         makes={makes}
         prices={prices}
